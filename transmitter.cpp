@@ -181,7 +181,7 @@ class Peripherals
             peripherals = mmap(nullptr, GetSize(), PROT_READ | PROT_WRITE, MAP_SHARED, memFd, GetVirtualBaseAddress());
             close(memFd);
             if (peripherals == MAP_FAILED) {
-                throw std::runtime_error("Cannot obtain access to peripherals (mmap error)");
+                throw std::runtime_error("Cannot obtain access to peripherals (mmap error) (common RPI5 error) [" + std::to_string(GetVirtualBaseAddress()) + "]");
             }
         }
         unsigned GetSize() {
