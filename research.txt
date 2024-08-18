@@ -1,0 +1,10 @@
+RP1 (IO of RPI5): https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf
+
+Best way to run the clock for radio TX would be either the CORE or AUDIO clocks.
+Described in Chapter 2.5, we have the AUDIO_OUT clock whuch runs at 153.6 MHz, which is the closest to 500, however as the original fm_transmitter, we can use the system clocks to run our signals.
+
+In 2.5.2, we have this paragraph: "The Core clock (clk_sys) typically runs at 200MHz. The Core PLL VCO is kept at 2GHz so other fixed frequencies can be
+generated from this source"
+
+Actually, the best may be the Audio clocks, as they're unused
+

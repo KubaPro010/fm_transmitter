@@ -51,7 +51,7 @@
 #define BCM2711_MEM_FLAG 0x04
 
 // PLLD is the clock used for the VPU
-#define BCM2835_BCM2712_PLLD_FREQ 500
+#define BCM2835_PLLD_FREQ 500
 #define BCM2711_PLLD_FREQ 750
 
 #define GPIO_BASE_OFFSET 0x00200000
@@ -59,8 +59,6 @@
 #define CLK0_BASE_OFFSET 0x00101070
 #define CLK1_BASE_OFFSET 0x00101078
 #define CLK_PASSWORD (0x5a << 24)
-#define CLK_CTL_SRC_PLLA 0x04
-#define CLK_CTL_SRC_PLLC 0x05
 #define CLK_CTL_SRC_PLLD 0x06
 #define CLK_CTL_ENAB (0x01 << 4)
 #define CLK_CTL_MASH(x) ((x & 0x03) << 9)
@@ -164,11 +162,10 @@ class Peripherals
             return reinterpret_cast<uintptr_t>(peripherals) + offset;
         }
         static uintptr_t GetVirtualBaseAddress() {
-            // TODO: Fix this, this is returning an incorrect result that crashes the creation of Peripherals
             return (bcm_host_get_peripheral_size() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PERI_VIRT_BASE : bcm_host_get_peripheral_address();
         }
         static float GetClockFrequency() {
-            return (Peripherals::GetVirtualBaseAddress() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PLLD_FREQ : BCM2835_BCM2712_PLLD_FREQ;
+            return (Peripherals::GetVirtualBaseAddress() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PLLD_FREQ : BCM2835_PLLD_FREQ;
         }
     private:
         Peripherals() {
