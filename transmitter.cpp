@@ -172,7 +172,7 @@ class Peripherals
         }
     private:
         Peripherals() {
-            throw std::runtime_error(std::to_string(GetVirtualBaseAddress())); // debug
+            // throw std::runtime_error(std::to_string(GetVirtualBaseAddress())); // returns 16
             int memFd;
             if ((memFd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
                 throw std::runtime_error("Cannot open /dev/mem file (permission denied)");
