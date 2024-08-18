@@ -31,6 +31,8 @@
     WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+// This file holds all the logic for the TX, if we want to make this work with a another Pi (or device), modify this file
+
 #include "transmitter.hpp"
 #include "mailbox.hpp"
 #include <bcm_host.h>
@@ -40,14 +42,16 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
-#define PERIPHERALS_PHYS_BASE 0x7e000000
-#define BCM2835_PERI_VIRT_BASE 0x20000000
-#define BCM2711_PERI_VIRT_BASE 0xfe000000
+#define PERIPHERALS_PHYS_BASE 0x7e000000 // not sure what is this
+#define BCM2835_PERI_VIRT_BASE 0x20000000 // RPI1
+// RPI 2-3 were forgotten
+#define BCM2711_PERI_VIRT_BASE 0xfe000000 // RPI4
 
 #define BCM2835_MEM_FLAG 0x0c
 #define BCM2711_MEM_FLAG 0x04
 
-#define BCM2835_PLLD_FREQ 500
+// PLLD is the clock used for the VPU
+#define BCM2835_BCM2712_PLLD_FREQ 500
 #define BCM2711_PLLD_FREQ 750
 
 #define GPIO_BASE_OFFSET 0x00200000
@@ -160,13 +164,15 @@ class Peripherals
             return reinterpret_cast<uintptr_t>(peripherals) + offset;
         }
         static uintptr_t GetVirtualBaseAddress() {
+            // TODO: Fix this, this is returning an incorrect result that crashes the creation of Peripherals
             return (bcm_host_get_peripheral_size() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PERI_VIRT_BASE : bcm_host_get_peripheral_address();
         }
         static float GetClockFrequency() {
-            return (Peripherals::GetVirtualBaseAddress() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PLLD_FREQ : BCM2835_PLLD_FREQ;
+            return (Peripherals::GetVirtualBaseAddress() == BCM2711_PERI_VIRT_BASE) ? BCM2711_PLLD_FREQ : BCM2835_BCM2712_PLLD_FREQ;
         }
     private:
         Peripherals() {
+            throw std::runtime_error(std::to_string(GetVirtualBaseAddress())); // debug
             int memFd;
             if ((memFd = open("/dev/mem", O_RDWR | O_SYNC)) < 0) {
                 throw std::runtime_error("Cannot open /dev/mem file (permission denied)");
