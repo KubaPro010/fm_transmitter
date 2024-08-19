@@ -42,7 +42,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 
-#define PERIPHERALS_PHYS_BASE 0x7e000000 // not sure what is this
+#define PERIPHERALS_PHYS_BASE 0x7e000000 // bus address start on physical memory
 #define BCM2835_PERI_VIRT_BASE 0x20000000 // RPI1
 // RPI 2-3 were forgotten
 #define BCM2711_PERI_VIRT_BASE 0xfe000000 // RPI4
