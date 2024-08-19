@@ -9,3 +9,7 @@ generated from this source"
 Actually, the best may be the Audio clocks, as they're unused
 
 UPDATE: Read on https://github.com/fandahao17/Raspberry-Pi-DMA-Tutorial
+
+bcm_host_get_peripheral_address is completly unuseable here (see https://github.com/raspberrypi/documentation/issues/3350)
+
+First, i'm gonna focus on the original pifm.c instead of this.
