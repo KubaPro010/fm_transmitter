@@ -13,3 +13,10 @@ UPDATE: Read on https://github.com/fandahao17/Raspberry-Pi-DMA-Tutorial
 bcm_host_get_peripheral_address is completly unuseable here (see https://github.com/raspberrypi/documentation/issues/3350)
 
 First, i'm gonna focus on the original pifm.c instead of this.
+
+RPI 5 has these return values:
+bcm_host_get_peripheral_address -> 0x00000010
+bcm_host_get_peripheral_size -> 0x7c000000
+bcm_host_get_sdram_address -> 0xc0000000
+
+RPI 4 is similieary wrong values, are they the same?
